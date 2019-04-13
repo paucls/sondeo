@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: sondeo
+---
+testFramework: spek
+sourceLanguage: kotlin
