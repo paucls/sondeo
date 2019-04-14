@@ -11,7 +11,7 @@ import javax.validation.Valid
 class PollsController(private val pollsService: PollsService) {
 
     @Post
-    fun postPoll(@Valid @Body poll: Poll) {
+    fun postPoll(@Valid @Body poll: Poll): Poll {
         return pollsService.createPoll(poll)
     }
 }
