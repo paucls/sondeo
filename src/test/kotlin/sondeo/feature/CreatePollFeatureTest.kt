@@ -6,6 +6,7 @@ import io.micronaut.http.client.RxHttpClient
 import io.micronaut.runtime.server.EmbeddedServer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import sondeo.domain.Poll
 
@@ -14,6 +15,7 @@ class CreatePollFeatureTest {
     private val embeddedServer: EmbeddedServer = ApplicationContext.run(EmbeddedServer::class.java)
     private val client: RxHttpClient = RxHttpClient.create(embeddedServer.url)
 
+    @Disabled
     @Test
     internal fun `should create a new poll`() {
         val response = client.exchange(
