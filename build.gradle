@@ -47,6 +47,11 @@ dependencies {
     testCompile "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     testRuntime "org.junit.jupiter:junit-jupiter-engine"
     testRuntime "org.jetbrains.spek:spek-junit-platform-engine:1.1.5"
+
+    // Datasource and JPA
+    compile "io.micronaut.configuration:micronaut-hibernate-jpa"
+    compile "io.micronaut.configuration:micronaut-jdbc-hikari"
+    runtime "com.h2database:h2"
 }
 
 test.classpath += configurations.developmentOnly

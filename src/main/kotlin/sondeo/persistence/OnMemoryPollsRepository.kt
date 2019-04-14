@@ -5,7 +5,7 @@ import sondeo.domain.PollsRepository
 import java.util.UUID
 import javax.inject.Singleton
 
-@Singleton
+//@Singleton
 class OnMemoryPollsRepository : PollsRepository {
     private val polls = mutableSetOf<Poll>()
 
