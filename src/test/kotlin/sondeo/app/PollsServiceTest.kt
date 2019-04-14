@@ -31,4 +31,13 @@ internal class PollsServiceTest {
         verify(pollsRepository).add(poll)
         assertThat(response).isEqualTo(savedPoll)
     }
+
+    @Test
+    internal fun `should delete poll on repository`() {
+        val pollId = UUID.randomUUID()
+
+        pollsService.deletePoll(pollId)
+
+        verify(pollsRepository).delete(pollId)
+    }
 }
