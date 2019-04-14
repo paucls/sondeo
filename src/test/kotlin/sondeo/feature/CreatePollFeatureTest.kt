@@ -2,6 +2,7 @@ package sondeo.feature
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.http.HttpRequest.POST
+import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.runtime.server.EmbeddedServer
 import org.assertj.core.api.Assertions.assertThat
@@ -17,12 +18,16 @@ class CreatePollFeatureTest {
     @Test
     internal fun `should create a new poll`() {
         val response = client.exchange(
-                POST("/polls", Poll("May event topic", "Cork")),
+                POST("/polls", Poll(
+                        title = "May event topic",
+                        location = "Cork")),
                 Poll::class.java).blockingFirst()
 
-        assertThat(response.status).isEqualTo(201)
-        val poll = response.body()
-        assertThat(poll?.id).isNotNull()
+        assertThat(response.status).isEqualTo(HttpStatus.CREATED)
+        val poll = response.body()!!
+        assertThat(poll.id).isNotNull()
+        assertThat(poll.title).isEqualTo("May event topic")
+        assertThat(poll.location).isEqualTo("Cork")
     }
 
     @AfterEach

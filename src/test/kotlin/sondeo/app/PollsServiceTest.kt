@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import sondeo.domain.Poll
 import sondeo.domain.PollsRepository
+import java.util.UUID
 
 internal class PollsServiceTest {
 
@@ -15,8 +16,13 @@ internal class PollsServiceTest {
 
     @Test
     internal fun `should save poll on repository`() {
-        val poll = Poll("May event topic", "Cork")
-        val savedPoll = Poll("May event topic", "Cork")
+        val poll = Poll(
+                title = "May event topic",
+                location = "Cork")
+        val savedPoll = Poll(
+                id = UUID.randomUUID(),
+                title = "May event topic",
+                location = "Cork")
 
         given(pollsRepository.add(poll)).willReturn(savedPoll)
 

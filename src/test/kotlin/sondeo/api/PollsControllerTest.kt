@@ -13,7 +13,9 @@ internal class PollsControllerTest {
 
     @Test
     internal fun `should tell service to create poll`() {
-        val poll = Poll("May event topic", "Cork")
+        val poll = Poll(
+                title = "May event topic",
+                location = "Cork")
 
         pollsController.postPoll(poll)
 
