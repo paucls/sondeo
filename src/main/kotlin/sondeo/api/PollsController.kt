@@ -1,6 +1,8 @@
 package sondeo.api
 
 import io.micronaut.http.HttpResponse
+import io.micronaut.http.HttpResponse.created
+import io.micronaut.http.HttpResponse.ok
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete
@@ -18,17 +20,16 @@ class PollsController(private val pollsService: PollsService,
 
     @Post
     fun postPoll(@Valid @Body poll: Poll): HttpResponse<Poll> {
-        return HttpResponse.created(
-                pollsService.createPoll(poll))
+        return created(pollsService.createPoll(poll))
     }
 
     @Delete("/{pollId}")
-    fun deletePoll(pollId: UUID) {
-        pollsService.deletePoll(pollId)
+    fun deletePoll(pollId: UUID): HttpResponse<Unit> {
+        return ok(pollsService.deletePoll(pollId))
     }
 
     @Get
     fun getPolls(): HttpResponse<List<Poll>> {
-        return HttpResponse.ok(pollsRepository.getAll())
+        return ok(pollsRepository.getAll())
     }
 }
