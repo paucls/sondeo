@@ -9,7 +9,6 @@ import javax.inject.Singleton
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
-@Suppress("JpaQlInspection")
 @Singleton
 open class JpaPollsRepository(
         @PersistenceContext
