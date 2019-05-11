@@ -1,6 +1,12 @@
 # Sondeo
 A pet project to learn Micronaut.
 
+## Build and run docker image
+```
+docker build -t paucls/sondeo .
+docker run -p 127.0.0.1:8080:8080/tcp paucls/sondeo
+```
+
 ## References
 - Micronaut documentation
 https://docs.micronaut.io/latest/guide/index.html

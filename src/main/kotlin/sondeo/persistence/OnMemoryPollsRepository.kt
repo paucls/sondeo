@@ -21,7 +21,7 @@ class OnMemoryPollsRepository : PollsRepository {
         polls.removeIf { it.id == pollId }
     }
 
-    fun getAll(): List<Poll> {
+    override fun getAll(): List<Poll> {
         return polls.toList()
     }
 }

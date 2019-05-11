@@ -5,12 +5,14 @@ import com.nhaarman.mockitokotlin2.verify
 import org.junit.jupiter.api.Test
 import sondeo.app.PollsService
 import sondeo.domain.Poll
+import sondeo.domain.PollsRepository
 import java.util.UUID
 
 internal class PollsControllerTest {
 
     private val pollsService: PollsService = mock()
-    private val pollsController = PollsController(pollsService)
+    private val pollsRepository: PollsRepository = mock()
+    private val pollsController = PollsController(pollsService, pollsRepository)
 
     @Test
     internal fun `should tell service to create poll`() {

@@ -9,6 +9,7 @@ import javax.inject.Singleton
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
+@Suppress("JpaQlInspection")
 @Singleton
 open class JpaPollsRepository(
         @PersistenceContext
@@ -27,6 +28,12 @@ open class JpaPollsRepository(
         findById(pollId).ifPresent {
             entityManager.remove(it)
         }
+    }
+
+    @Transactional
+    override fun getAll(): List<Poll> {
+        val query = entityManager.createQuery("SELECT p from Poll p")
+        return query.resultList as List<Poll>
     }
 
     private fun findById(pollId: UUID): Optional<Poll> {

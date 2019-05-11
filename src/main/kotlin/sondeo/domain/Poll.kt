@@ -8,6 +8,6 @@ import javax.persistence.Id
 data class Poll(
         @Id
         val id: UUID? = null,
-        val title: String,
-        val location: String
+        val title: String = "",
+        val location: String = ""
 )

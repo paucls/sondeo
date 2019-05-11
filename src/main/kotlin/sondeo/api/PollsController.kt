@@ -4,14 +4,17 @@ import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete
+import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import sondeo.app.PollsService
 import sondeo.domain.Poll
+import sondeo.domain.PollsRepository
 import java.util.UUID
 import javax.validation.Valid
 
 @Controller("/polls")
-class PollsController(private val pollsService: PollsService) {
+class PollsController(private val pollsService: PollsService,
+                      private val pollsRepository: PollsRepository) {
 
     @Post
     fun postPoll(@Valid @Body poll: Poll): HttpResponse<Poll> {
@@ -22,5 +25,10 @@ class PollsController(private val pollsService: PollsService) {
     @Delete("/{pollId}")
     fun deletePoll(pollId: UUID) {
         pollsService.deletePoll(pollId)
+    }
+
+    @Get
+    fun getPolls(): HttpResponse<List<Poll>> {
+        return HttpResponse.ok(pollsRepository.getAll())
     }
 }
