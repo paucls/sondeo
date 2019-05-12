@@ -8,11 +8,14 @@ import io.micronaut.http.HttpStatus.OK
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import sondeo.app.PollsService
+import sondeo.domain.Option
 import sondeo.domain.Poll
 import sondeo.domain.PollsRepository
 import java.util.UUID
 
 internal class PollsControllerTest {
+
+    private val options = listOf(Option(text = "option 1"), Option(text = "option 2"))
 
     private val pollsService: PollsService = mock()
     private val pollsRepository: PollsRepository = mock()
@@ -22,7 +25,8 @@ internal class PollsControllerTest {
     internal fun `should create a new poll`() {
         val poll = Poll(
                 title = "May event topic",
-                location = "Cork")
+                location = "Cork",
+                options = options)
 
         val response = pollsController.postPoll(poll)
 
@@ -42,7 +46,7 @@ internal class PollsControllerTest {
 
     @Test
     internal fun `should return all polls`() {
-        val polls = listOf(Poll(), Poll())
+        val polls = listOf(Poll(options = options), Poll(options = options))
         given(pollsRepository.getAll()).willReturn(polls)
 
         val response = pollsController.getPolls()

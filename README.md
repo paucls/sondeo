@@ -9,6 +9,9 @@ docker build -t paucls/sondeo .
 docker run -p 127.0.0.1:8080:8080/tcp paucls/sondeo
 ```
 
+## TODO
+- Write integration test for repository implementation.
+
 ## References
 - Micronaut documentation
 https://docs.micronaut.io/latest/guide/index.html

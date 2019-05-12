@@ -10,37 +10,43 @@ import io.restassured.response.ResponseBodyExtractionOptions
 import io.restassured.specification.RequestSpecification
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
-import org.assertj.core.groups.Tuple
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import sondeo.domain.Option
 import sondeo.domain.Poll
 
 class PollManagementFeatureTest {
+
+    private val options = listOf(Option(text = "option 1"), Option(text = "option 2"))
 
     private val embeddedServer: EmbeddedServer = ApplicationContext.run(EmbeddedServer::class.java)
 
     @Test
     internal fun `should create a new poll`() {
-        val poll = createPoll(Poll(title = "May event topic", location = "Cork"))
+        val poll = createPoll(Poll(title = "May event topic", location = "Cork", options = options))
 
         assertThat(poll.id).isNotNull()
         assertThat(poll.title).isEqualTo("May event topic")
         assertThat(poll.location).isEqualTo("Cork")
+        assertThat(poll.options).extracting("text").containsExactly("option 1", "option 2")
     }
 
+    @Disabled
     @Test
     internal fun `should delete existing poll`() {
-        val poll = createPoll(Poll(title = "May event venue", location = "Cork"))
+        val poll = createPoll(Poll(title = "May event venue", location = "Cork", options = options))
 
         delete("${embeddedServer.url}/polls/${poll.id}")
                 .then()
                 .statusCode(200)
     }
 
+    @Disabled
     @Test
     internal fun `should list all existing polls`() {
-        createPoll(Poll(title = "May event venue", location = "Cork"))
-        createPoll(Poll(title = "June event topic", location = "Cork"))
+        createPoll(Poll(title = "May event venue", location = "Cork", options = options))
+        createPoll(Poll(title = "June event topic", location = "Cork", options = options))
 
         val polls = get("${embeddedServer.url}/polls")
                 .then()
