@@ -1,6 +1,8 @@
 # Sondeo
 A pet project to learn Micronaut.
 
+[![Build Status](https://travis-ci.org/paucls/sondeo.svg?branch=master)](https://travis-ci.org/paucls/sondeo)
+
 ## Build and run docker image
 ```
 docker build -t paucls/sondeo .
