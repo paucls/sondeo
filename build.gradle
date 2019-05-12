@@ -45,6 +45,7 @@ dependencies {
     testCompile "org.jetbrains.spek:spek-api:1.1.5"
     testCompile "org.assertj:assertj-core:3.11.1"
     testCompile "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+    testCompile "io.rest-assured:rest-assured:4.0.0"
     testRuntime "org.junit.jupiter:junit-jupiter-engine"
     testRuntime "org.jetbrains.spek:spek-junit-platform-engine:1.1.5"
 

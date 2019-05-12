@@ -1,33 +1,28 @@
 package sondeo.feature
 
 import io.micronaut.context.ApplicationContext
-import io.micronaut.core.type.Argument
-import io.micronaut.http.HttpRequest.DELETE
-import io.micronaut.http.HttpRequest.GET
-import io.micronaut.http.HttpRequest.POST
-import io.micronaut.http.HttpResponse
-import io.micronaut.http.HttpStatus.CREATED
-import io.micronaut.http.HttpStatus.OK
-import io.micronaut.http.client.RxHttpClient
 import io.micronaut.runtime.server.EmbeddedServer
+import io.restassured.RestAssured.delete
+import io.restassured.RestAssured.get
+import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
+import io.restassured.response.ResponseBodyExtractionOptions
+import io.restassured.specification.RequestSpecification
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.tuple
+import org.assertj.core.groups.Tuple
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import sondeo.domain.Poll
-import java.util.UUID
-
 
 class PollManagementFeatureTest {
 
     private val embeddedServer: EmbeddedServer = ApplicationContext.run(EmbeddedServer::class.java)
-    private val client: RxHttpClient = RxHttpClient.create(embeddedServer.url)
 
     @Test
     internal fun `should create a new poll`() {
-        val response = postPoll(Poll(title = "May event topic", location = "Cork"))
+        val poll = createPoll(Poll(title = "May event topic", location = "Cork"))
 
-        assertThat(response.status).isEqualTo(CREATED)
-        val poll = response.body()!!
         assertThat(poll.id).isNotNull()
         assertThat(poll.title).isEqualTo("May event topic")
         assertThat(poll.location).isEqualTo("Cork")
@@ -35,40 +30,50 @@ class PollManagementFeatureTest {
 
     @Test
     internal fun `should delete existing poll`() {
-        val pollId = UUID.randomUUID()
+        val poll = createPoll(Poll(title = "May event venue", location = "Cork"))
 
-        val response = client.exchange(
-                DELETE<Unit>("/polls/$pollId"),
-                Poll::class.java).blockingFirst()
-
-        assertThat(response.status).isEqualTo(OK)
+        delete("${embeddedServer.url}/polls/${poll.id}")
+                .then()
+                .statusCode(200)
     }
 
     @Test
-    internal fun `should list existing polls`() {
-        postPoll(Poll(title = "May event venue", location = "Cork"))
-        postPoll(Poll(title = "June event topic", location = "Cork"))
+    internal fun `should list all existing polls`() {
+        createPoll(Poll(title = "May event venue", location = "Cork"))
+        createPoll(Poll(title = "June event topic", location = "Cork"))
 
-        val response = client.exchange(
-                GET<List<Poll>>("/polls"),
-                Argument.of(List::class.java, Poll::class.java)).blockingFirst()
+        val polls = get("${embeddedServer.url}/polls")
+                .then()
+                .statusCode(200)
+                .extract().to<List<Poll>>()
 
-        assertThat(response.status).isEqualTo(OK)
-        val polls = response.body()!!
-        assertThat(polls).hasSize(2)
-        assertThat((polls[0] as Poll).title).isEqualTo("May event venue")
-        assertThat((polls[1] as Poll).title).isEqualTo("June event topic")
+        assertThat(polls).extracting("title", "location").containsExactly(
+                tuple("May event venue", "Cork"),
+                tuple("June event topic", "Cork")
+        )
     }
 
-    private fun postPoll(poll: Poll): HttpResponse<Poll> {
-        return client.exchange(
-                POST("/polls", poll),
-                Poll::class.java).blockingFirst()
+    private fun createPoll(poll: Poll): Poll {
+        return given().request()
+                .body(poll)
+                .contentType(ContentType.JSON)
+                .whenever()
+                .post("${embeddedServer.url}/polls")
+                .then()
+                .statusCode(201)
+                .extract().to()
     }
 
     @AfterEach
     internal fun tearDown() {
-        client.close()
         embeddedServer.close()
     }
+}
+
+fun RequestSpecification.whenever(): RequestSpecification {
+    return this.`when`()
+}
+
+inline fun <reified T> ResponseBodyExtractionOptions.to(): T {
+    return this.`as`(T::class.java)
 }

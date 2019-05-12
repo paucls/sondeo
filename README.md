@@ -14,3 +14,5 @@ https://docs.micronaut.io/latest/guide/index.html
 https://micronaut-projects.github.io/micronaut-test/latest/guide/index.html#junit5
 - Access a database with JPA and Hibernate
 https://guides.micronaut.io/micronaut-data-access-jpa-hibernate/guide/index.html
+- Testing RESTful Services in Kotlin with Rest Assured, Ryan Harrison
+https://ryanharrison.co.uk/2019/02/10/testing-restful-services-kotlin-with-rest-assured.html
