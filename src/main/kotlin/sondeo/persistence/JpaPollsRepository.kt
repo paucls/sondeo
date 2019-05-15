@@ -37,8 +37,8 @@ open class JpaPollsRepository(
 
     @Transactional
     override fun getAll(): List<Poll> {
-        val query = entityManager.createQuery("SELECT p from Poll p")
-        return query.resultList as List<Poll>
+        val query = entityManager.createQuery("SELECT p from Poll p", Poll::class.java)
+        return query.resultList
     }
 
     private fun findById(pollId: UUID): Optional<Poll> {

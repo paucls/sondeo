@@ -11,7 +11,6 @@ import io.restassured.specification.RequestSpecification
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import sondeo.domain.Option
 import sondeo.domain.Poll
@@ -32,7 +31,6 @@ class PollManagementFeatureTest {
         assertThat(poll.options).extracting("text").containsExactly("option 1", "option 2")
     }
 
-    @Disabled
     @Test
     internal fun `should delete existing poll`() {
         val poll = createPoll(Poll(title = "May event venue", location = "Cork", options = options))
@@ -42,7 +40,6 @@ class PollManagementFeatureTest {
                 .statusCode(200)
     }
 
-    @Disabled
     @Test
     internal fun `should list all existing polls`() {
         createPoll(Poll(title = "May event venue", location = "Cork", options = options))
