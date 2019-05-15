@@ -15,7 +15,18 @@ data class Poll(
         @ElementCollection(fetch = FetchType.EAGER)
         val options: List<Option>
 ) {
+    var state: PollState = PollState.OPEN
+
     init {
         if (options.isEmpty()) throw PollCannotBeEmpty()
     }
+
+    fun close() {
+        state = PollState.CLOSED
+    }
+}
+
+enum class PollState {
+    OPEN,
+    CLOSED
 }
