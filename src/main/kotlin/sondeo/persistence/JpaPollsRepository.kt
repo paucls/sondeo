@@ -30,18 +30,20 @@ open class JpaPollsRepository(
 
     @Transactional
     override fun delete(pollId: UUID) {
-        findById(pollId).ifPresent {
-            entityManager.remove(it)
-        }
+        entityManager
+                .createQuery("DELETE from Poll p WHERE p.id = :pollId")
+                .setParameter("pollId", pollId)
+                .executeUpdate()
     }
 
     @Transactional
     override fun getAll(): List<Poll> {
-        val query = entityManager.createQuery("SELECT p from Poll p", Poll::class.java)
-        return query.resultList
+        return entityManager
+                .createQuery("SELECT p from Poll p", Poll::class.java)
+                .resultList
     }
 
-    private fun findById(pollId: UUID): Optional<Poll> {
+    fun findById(pollId: UUID): Optional<Poll> {
         return Optional.ofNullable(
                 entityManager.find(Poll::class.java, pollId))
     }
