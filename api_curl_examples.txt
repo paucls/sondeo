@@ -1,0 +1,9 @@
+// Create Poll
+curl -d '{"title":"May event topic", "location": "Cork", "options": [{"text": "TDD"}, {"text": "Refactoring"}]}' -H "Content-Type: application/json" -X POST http://localhost:8080/polls
+curl -d '{"title":"June event day", "location": "Cork", "options": [{"text": "Monday"}, {"text": "Tuesday"}]}' -H "Content-Type: application/json" -X POST http://localhost:8080/polls
+
+// Get Polls
+curl http://localhost:8080/polls
+
+// Delete Poll
+curl -X DELETE http://localhost:8080/polls/{poll-id}
