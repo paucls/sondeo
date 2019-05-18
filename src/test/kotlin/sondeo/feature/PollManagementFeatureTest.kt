@@ -6,20 +6,28 @@ import io.restassured.RestAssured.delete
 import io.restassured.RestAssured.get
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import io.restassured.response.ResponseBodyExtractionOptions
-import io.restassured.specification.RequestSpecification
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import sondeo.domain.Option
 import sondeo.domain.Poll
+import sondeo.persistence.JpaPollsRepository
+import to
+import whenever
 
 class PollManagementFeatureTest {
 
     private val options = listOf(Option(text = "option 1"), Option(text = "option 2"))
 
     private val embeddedServer: EmbeddedServer = ApplicationContext.run(EmbeddedServer::class.java)
+
+    @BeforeEach
+    internal fun setUp() {
+        val pollsRepository = embeddedServer.applicationContext.getBean(JpaPollsRepository::class.java)
+        pollsRepository.deleteAll()
+    }
 
     @Test
     internal fun `should create a new poll`() {
@@ -71,12 +79,4 @@ class PollManagementFeatureTest {
     internal fun tearDown() {
         embeddedServer.close()
     }
-}
-
-fun RequestSpecification.whenever(): RequestSpecification {
-    return this.`when`()
-}
-
-inline fun <reified T> ResponseBodyExtractionOptions.to(): T {
-    return this.`as`(T::class.java)
 }

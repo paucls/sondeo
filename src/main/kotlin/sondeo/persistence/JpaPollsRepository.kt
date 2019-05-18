@@ -47,4 +47,16 @@ open class JpaPollsRepository(
         return Optional.ofNullable(
                 entityManager.find(Poll::class.java, pollId))
     }
+
+
+    /**
+     * Used by feature tests teardown
+     */
+
+    @Transactional
+    open fun deleteAll() {
+        entityManager
+                .createQuery("DELETE from Poll p")
+                .executeUpdate()
+    }
 }
