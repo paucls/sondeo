@@ -1,3 +1,5 @@
 package sondeo.domain
 
-class PollCannotBeEmpty : Exception()
+sealed class PollError : Exception()
+class PollCannotBeEmpty : PollError()
+class PollIsAlreadyClosed : PollError()

@@ -24,6 +24,13 @@ data class Poll(
     fun close() {
         state = PollState.CLOSED
     }
+
+    fun vote(c: VoteCommand): Vote {
+        if (state == PollState.CLOSED)
+            throw PollIsAlreadyClosed()
+
+        return Vote(participant = c.participant, options = c.options)
+    }
 }
 
 enum class PollState {

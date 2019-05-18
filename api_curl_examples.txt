@@ -7,3 +7,6 @@ curl http://localhost:8080/polls
 
 // Delete Poll
 curl -X DELETE http://localhost:8080/polls/{poll-id}
+
+// Vote on Poll
+curl -d '{"participant": "John Done", "options": ["o1", "o2"]' -X POST http://localhost:8080/polls/{poll-id}/vote
