@@ -13,13 +13,13 @@ import sondeo.domain.Poll
 import sondeo.domain.PollsRepository
 import java.util.UUID
 
-internal class PollsControllerTest {
+internal class PollsManagementControllerTest {
 
     private val options = listOf(Option(text = "option 1"), Option(text = "option 2"))
 
     private val pollsService: PollsService = mock()
     private val pollsRepository: PollsRepository = mock()
-    private val pollsController = PollsController(pollsService, pollsRepository)
+    private val pollsController = PollsManagementController(pollsService, pollsRepository)
 
     @Test
     internal fun `should create a new poll`() {

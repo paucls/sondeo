@@ -15,8 +15,8 @@ import java.util.UUID
 import javax.validation.Valid
 
 @Controller("/polls")
-class PollsController(private val pollsService: PollsService,
-                      private val pollsRepository: PollsRepository) {
+class PollsManagementController(private val pollsService: PollsService,
+                                private val pollsRepository: PollsRepository) {
 
     @Post
     fun postPoll(@Valid @Body poll: Poll): HttpResponse<Poll> {
