@@ -4,14 +4,19 @@ import java.util.UUID
 import javax.persistence.ElementCollection
 import javax.persistence.Entity
 import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
 data class Poll(
         @Id
+        @GeneratedValue(generator = "system-uuid")
         val id: UUID? = null,
+
         val title: String = "",
+
         val location: String = "",
+
         @ElementCollection(fetch = FetchType.EAGER)
         val options: List<Option>
 ) {

@@ -18,14 +18,12 @@ open class JpaPollsRepository(
     @Transactional
     override fun add(poll: Poll): Poll {
         poll.options.forEach {
-            it.id = UUID.randomUUID()
             entityManager.persist(it)
         }
 
-        val newPoll = poll.copy(id = UUID.randomUUID())
-        entityManager.persist(newPoll)
+        entityManager.persist(poll)
 
-        return newPoll
+        return poll
     }
 
     @Transactional
